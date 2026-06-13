@@ -8,3 +8,6 @@ out/
 # Arquivos de curso
 *.pdf
 
+# Arquivos compilados Java
+*.class
+

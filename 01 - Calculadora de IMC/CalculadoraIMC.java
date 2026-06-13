@@ -10,8 +10,8 @@ public class CalculadoraIMC extends Application{
     @Override
     public void start(Stage palco) {
         // Etiquetas para os campos de entrada
-        Label labelPeso = new Label("Peso");
-        Label labelAltura = new Label("Altura");
+        Label labelPeso = new Label("Peso (kg)");
+        Label labelAltura = new Label("Altura (metros)");
 
         // Campos de texto para entrada de dados
         TextField campoPeso = new TextField();
@@ -70,14 +70,6 @@ public class CalculadoraIMC extends Application{
 
     public static void main(String[] args) {
         launch(args);
-        //double peso = 75.3; //em kg
-        //double altura = 1.80; //em m
-        //double imc;
-
-        //imc = calculoIMC(peso, altura);
-
-        //System.out.println("O IMC de uma pessoa com peso de " + peso + "kg e uma altura de " + altura + "m é: " + imc);
-        //classificarIMC(imc);
     }
 
 }
