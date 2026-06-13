@@ -23,7 +23,15 @@ public class CalculadoraIMC extends Application{
         Label labelResultado = new Label();
 
         // Botão para calcular o IMC
-        Button botaoCalcular = new Button("Calcular IMC"); //preciso configurar a ação do botão
+        Button botaoCalcular = new Button("Calcular IMC");
+        botaoCalcular.setOnAction(e -> {
+            double peso = Double.parseDouble(campoPeso.getText().replace(',', '.'));
+            double altura = Double.parseDouble(campoAltura.getText().replace(',', '.'));
+
+            double imc = calculoIMC(peso, altura);
+
+            labelResultado.setText(String.format("Seu IMC é: %.2f e sua classificação é: %s", imc, classificarIMC(imc)));
+        });
 
         // Layout vertical
         VBox layout = new VBox(10, labelPeso, campoPeso, labelAltura, campoAltura, botaoCalcular, labelResultado);
@@ -42,21 +50,21 @@ public class CalculadoraIMC extends Application{
         return peso / (altura * altura);
     }
 
-    public static void classificarIMC(double imc){
+    public static String classificarIMC(double imc){
         if (imc < 17) {
-            System.out.println("\nMuito abaixo do peso.");
+            return "Muito abaixo do peso.";
         } else if (imc < 18.5) {
-            System.out.println("\nAbaixo do peso.");
+            return "Abaixo do peso.";
         } else if (imc < 25) {
-            System.out.println("\nPeso normal.");
+            return "Peso normal.";
         } else if (imc < 30) {
-            System.out.println("\nAcima do peso.");
+            return "Acima do peso.";
         } else if (imc < 35) {
-            System.out.println("\nObesidade I.");
+            return "Obesidade I.";
         } else if (imc < 40) {
-            System.out.println("\nObesidade II (severa)");
+            return "Obesidade II (severa)";
         } else {
-            System.out.println("\nObesidade III (mórbida)");
+            return "Obesidade III (mórbida)";
         }
     }
 
