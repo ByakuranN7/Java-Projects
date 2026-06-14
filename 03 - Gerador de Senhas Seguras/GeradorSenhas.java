@@ -1,7 +1,9 @@
 import java.security.SecureRandom;
 import java.util.Scanner;
 
-public class GeradorSenhas{
+public class GeradorSenhas {
+
+    private static final int TAMANHO_MINIMO = 15;
 
     public String gerarSenha(int tamanho) {
 
@@ -18,6 +20,7 @@ public class GeradorSenhas{
             int indice = secRandom.nextInt(caracteres.length());
             senha.append(caracteres.charAt(indice));
         }
+
         return senha.toString();
     }
 
@@ -25,11 +28,18 @@ public class GeradorSenhas{
 
         Scanner scan = new Scanner(System.in);
 
-        System.out.print("Digite o tamanho da senha: ");
-        int tamanho = scan.nextInt();
+        int tamanho;
+
+        do {
+            System.out.print("Digite o tamanho da senha (mínimo " + TAMANHO_MINIMO + " caracteres): ");
+            tamanho = scan.nextInt();
+
+            if (tamanho < TAMANHO_MINIMO) {
+                System.out.println("Erro: a senha deve possuir pelo menos " + TAMANHO_MINIMO + " caracteres.");
+            }
+        } while (tamanho < TAMANHO_MINIMO);
 
         GeradorSenhas gerador = new GeradorSenhas();
-
         String senha = gerador.gerarSenha(tamanho);
 
         System.out.println("Senha gerada: " + senha);
