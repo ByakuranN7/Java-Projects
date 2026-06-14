@@ -111,11 +111,11 @@ public class CalculadoraIMC extends Application {
         palco.show();
     }
 
-    public static double calculoIMC(double peso, double altura) {
+    public double calculoIMC(double peso, double altura) {
         return peso / (altura * altura);
     }
 
-    public static String classificarIMC(double imc) {
+    public String classificarIMC(double imc) {
         if (imc < 17) {
             return "Muito abaixo do peso.";
         } else if (imc < 18.5) {
