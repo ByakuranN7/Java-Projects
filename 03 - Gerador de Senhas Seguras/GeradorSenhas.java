@@ -1,4 +1,5 @@
 import java.security.SecureRandom;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -9,6 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 
 public class GeradorSenhas extends Application{
 
@@ -17,7 +20,7 @@ public class GeradorSenhas extends Application{
     @Override
     public void start (Stage palco){
 
-        Label messageLabel = new Label("Digite o tamanho da senha (minimo " + TAMANHO_MINIMO + "): ");
+        Label messageLabel = new Label("Digite o tamanho da senha (mínimo " + TAMANHO_MINIMO + "): ");
         messageLabel.setStyle("-fx-font-size: 24px;");
 
         TextField campoTamanho = new TextField();
@@ -28,30 +31,50 @@ public class GeradorSenhas extends Application{
         Label resultadoLabel = new Label();
         resultadoLabel.setStyle("-fx-font-size: 18px;");
 
-        // Botão para calcular o IMC
         Button botaoGerador = new Button("Gerar Senha");
         botaoGerador.setStyle("-fx-font-size: 24px;");
 
+        // Botão de copiar começa escondido
+        Button botaoCopiar = new Button("Copiar");
+        botaoCopiar.setStyle("-fx-font-size: 18px;");
+        botaoCopiar.setVisible(false);
+
+        botaoCopiar.setOnAction(e -> {
+
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+
+            content.putString(resultadoLabel.getText());
+            clipboard.setContent(content);
+        });
+
         botaoGerador.setOnAction(e -> {
+
             try {
+
                 int tamanho = Integer.parseInt(campoTamanho.getText());
 
                 if (tamanho < TAMANHO_MINIMO) {
+
                     resultadoLabel.setText("A senha deve possuir pelo menos " + TAMANHO_MINIMO + " caracteres.");
+                    botaoCopiar.setVisible(false);
                     return;
                 }
 
                 String senhaGerada = gerarSenha(tamanho);
                 resultadoLabel.setText(senhaGerada);
+                botaoCopiar.setVisible(true);
 
             } catch (NumberFormatException ex) {
+
                 resultadoLabel.setText("Digite apenas números.");
+                botaoCopiar.setVisible(false);
             }
         });
 
         VBox layout = new VBox(20);
 
-        layout.getChildren().addAll(messageLabel, campoTamanho, botaoGerador, resultadoLabel);
+        layout.getChildren().addAll(messageLabel, campoTamanho, botaoGerador, resultadoLabel, botaoCopiar);
 
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
@@ -75,10 +98,10 @@ public class GeradorSenhas extends Application{
         StringBuilder senha = new StringBuilder();
 
         for (int i = 0; i < tamanho; i++) {
+
             int indice = secRandom.nextInt(caracteres.length());
             senha.append(caracteres.charAt(indice));
         }
-
         return senha.toString();
     }
 
