@@ -198,4 +198,4 @@ Durante sua implementação foram explorados conceitos relacionados a:
 * Validação de dados
 * Organização visual de componentes
 
-Além de cumprir sua função como calculadora de IMC, o projeto serve como base para estudos futuros envolvendo arquiteturas mais robustas, FXML, Scene Builder, Maven, Gradle e aplicações desktop desenvolvidas profissionalmente.
+Além de cumprir sua função como calculadora de IMC, o projeto serve como base para estudos futuros envolvendo arquiteturas mais robustas, FXML, Scene Builder, Maven/Gradle e aplicações desktop desenvolvidas profissionalmente.
