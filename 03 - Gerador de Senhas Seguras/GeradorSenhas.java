@@ -28,6 +28,7 @@ public class GeradorSenhas extends Application{
         campoTamanho.setPrefWidth(160);
         campoTamanho.setStyle("-fx-font-size: 24px;");
 
+
         Label resultadoLabel = new Label();
         resultadoLabel.setStyle("-fx-font-size: 18px;");
 
@@ -38,6 +39,7 @@ public class GeradorSenhas extends Application{
         Button botaoCopiar = new Button("Copiar");
         botaoCopiar.setStyle("-fx-font-size: 18px;");
         botaoCopiar.setVisible(false);
+        campoTamanho.setOnAction(e -> botaoGerador.fire()); //ao pressionar enter, faz o mesmo que clicar no botão
 
         botaoCopiar.setOnAction(e -> {
 
@@ -56,7 +58,7 @@ public class GeradorSenhas extends Application{
 
                 if (tamanho < TAMANHO_MINIMO) {
 
-                    resultadoLabel.setText("A senha deve possuir pelo menos " + TAMANHO_MINIMO + " caracteres.");
+                    resultadoLabel.setText("Erro: tamanho mínimo para senha é " + TAMANHO_MINIMO);
                     botaoCopiar.setVisible(false);
                     return;
                 }
