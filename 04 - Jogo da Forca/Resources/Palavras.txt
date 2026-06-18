@@ -1,0 +1,15 @@
+cobra
+girafa
+elefante
+cachorro
+gato
+macaco
+camelo
+tigre
+leao
+coelho
+javali
+ornitorrinco
+golfinho
+pinguim
+pantera
