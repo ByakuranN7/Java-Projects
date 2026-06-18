@@ -1,6 +1,6 @@
-import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class JogoDaForca {
 
@@ -39,16 +39,22 @@ public class JogoDaForca {
             descoberta[i] = '_';
         }
 
-        Set<Character> letrasUtilizadas =
-                new HashSet<>();
+        Set<Character> letrasUtilizadas = new TreeSet<>();
 
         int erros = 0;
         int maxErros = 6;
+
+        String mensagem = "";
 
         while (erros < maxErros) {
 
             System.out.println();
             DesenhoForca.desenhar(erros);
+
+            if (!mensagem.isEmpty()) {
+                System.out.println(mensagem);
+                System.out.println();
+            }
 
             System.out.print("Palavra: ");
 
@@ -64,14 +70,25 @@ public class JogoDaForca {
 
             System.out.print("Chute uma letra: ");
 
-            String entrada = scanner.next().toLowerCase();
+            String entrada = scanner.next().toLowerCase().trim();
+
+            if (entrada.length() != 1) {
+
+                mensagem = "Digite apenas uma letra.";
+                continue;
+            }
 
             char chute = entrada.charAt(0);
 
+            if (!Character.isLetter(chute)) {
+
+                mensagem = "Digite apenas letras.";
+                continue;
+            }
+
             if (letrasUtilizadas.contains(chute)) {
 
-                System.out.println("Você já tentou essa letra.");
-
+                mensagem = "Você já tentou essa letra.";
                 continue;
             }
 
@@ -88,18 +105,25 @@ public class JogoDaForca {
                 }
             }
 
-            if (!acertou) {
+            if (acertou) {
+
+                mensagem = "Você acertou a letra!";
+
+            } else {
+
                 erros++;
-                System.out.println("Letra incorreta!");
+                mensagem = "Letra incorreta!";
             }
 
-            String atual =
-                    new String(descoberta);
+            String atual = new String(descoberta);
 
             if (atual.equals(palavra)) {
 
                 System.out.println();
+                DesenhoForca.desenhar(erros);
+
                 System.out.println("Parabéns! Você acertou!");
+                System.out.println("A palavra era: " + palavra);
 
                 exibirEstatisticas(palavra, letrasUtilizadas.size(), erros, maxErros);
 
@@ -107,14 +131,11 @@ public class JogoDaForca {
             }
         }
 
+        System.out.println();
         DesenhoForca.desenhar(erros);
 
-        System.out.println();
-        System.out.println("Você perdeu!"
-        );
-
-        System.out.println("A palavra era: " + palavra
-        );
+        System.out.println("💀 Você perdeu!");
+        System.out.println("A palavra era: " + palavra);
 
         exibirEstatisticas(palavra, letrasUtilizadas.size(), erros, maxErros);
     }
@@ -123,7 +144,9 @@ public class JogoDaForca {
 
         int acertos = tentativas - erros;
 
-        double taxaAcerto = tentativas == 0 ? 0 : ((double) acertos / tentativas) * 100;
+        double taxaAcerto = tentativas == 0
+                ? 0
+                : ((double) acertos / tentativas) * 100;
 
         System.out.println();
         System.out.println("===== ESTATÍSTICAS =====");
