@@ -134,7 +134,7 @@ public class JogoDaForca {
         System.out.println();
         DesenhoForca.desenhar(erros);
 
-        System.out.println("💀 Você perdeu!");
+        System.out.println("Você perdeu!");
         System.out.println("A palavra era: " + palavra);
 
         exibirEstatisticas(palavra, letrasUtilizadas.size(), erros, maxErros);
