@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este projeto tem como objetivo praticar os principais conceitos da linguagem **Java** através do desenvolvimento de um jogo da forca em terminal.
+Este projeto tem como objetivo praticar alguns conceitos fundamentais da linguagem **Java** através do desenvolvimento de um jogo da forca em terminal.
 
 Durante sua construção foram aplicados conceitos de programação orientada a objetos, manipulação de arquivos, estruturas de repetição, validação de entrada do usuário e organização de código em múltiplas classes.
 
