@@ -19,7 +19,8 @@ public class MiniWebBrowser extends Application {
     public void start(Stage palco) {
         TextField campoUrl = new TextField();
         Button botaoVoltar = new Button("←");
-        Button botaoAtualizar = new Button("Atualizar");
+        Button botaoAvancar = new Button("➜");
+        Button botaoAtualizar = new Button("⟳");
         WebView navegador = new WebView();
         WebEngine motor = navegador.getEngine();
         WebHistory webHistory = motor.getHistory();
@@ -35,8 +36,14 @@ public class MiniWebBrowser extends Application {
             }
         });
 
+        botaoAvancar.setOnAction(evento -> {
+            if (webHistory.getCurrentIndex() < webHistory.getEntries().size() - 1) {
+                webHistory.go(1);
+            }
+        });
+
         VBox layoutPrincipal = new VBox();
-        layoutPrincipal.getChildren().addAll(botaoVoltar, botaoAtualizar, campoUrl, navegador);
+        layoutPrincipal.getChildren().addAll(botaoVoltar, botaoAvancar, botaoAtualizar, campoUrl, navegador);
         Scene cena = new Scene(layoutPrincipal);
 
         cena.setOnMousePressed(evento -> {
@@ -45,7 +52,15 @@ public class MiniWebBrowser extends Application {
                     webHistory.go(-1);
                 }
             }
+
+            if (evento.getButton() == MouseButton.FORWARD) {
+                if (webHistory.getCurrentIndex() < webHistory.getEntries().size() - 1) {
+                    webHistory.go(1);
+                }
+            }
         });
+
+
 
         cena.setOnKeyPressed(evento -> {
             if (evento.getCode() == KeyCode.F5) {
