@@ -4,6 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -13,15 +15,24 @@ public class MiniWebBrowser extends Application {
     @Override
     public void start(Stage palco) {
         TextField campoUrl = new TextField();
+        Button botaoAtualizar = new Button("Atualizar");
         WebView navegador = new WebView();
         WebEngine motor = navegador.getEngine();
 
         // Carregar uma página da web quando o usuário pressiona Enter
         campoUrl.setOnAction(evento -> motor.load(formataUrl(campoUrl.getText())));
 
+        botaoAtualizar.setOnAction(evento -> motor.reload());
+
         VBox layoutPrincipal = new VBox();
-        layoutPrincipal.getChildren().addAll(campoUrl, navegador);
+        layoutPrincipal.getChildren().addAll(botaoAtualizar, campoUrl, navegador);
         Scene cena = new Scene(layoutPrincipal);
+
+        cena.setOnKeyPressed(evento -> {
+            if (evento.getCode() == KeyCode.F5) {
+                motor.reload();
+            }
+        });
 
         palco.setTitle("Meu Browser Java");
         palco.setScene(cena);
