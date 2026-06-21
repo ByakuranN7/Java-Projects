@@ -21,7 +21,7 @@ public class MiniWebBrowser extends Application {
 
         VBox layoutPrincipal = new VBox();
         layoutPrincipal.getChildren().addAll(campoUrl, navegador);
-        Scene cena = new Scene(vbox);
+        Scene cena = new Scene(layoutPrincipal);
 
         palco.setTitle("Meu Browser Java");
         palco.setScene(cena);
