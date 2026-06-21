@@ -18,6 +18,7 @@ public class MiniWebBrowser extends Application {
         Button botaoAtualizar = new Button("Atualizar");
         WebView navegador = new WebView();
         WebEngine motor = navegador.getEngine();
+        motor.load("https://www.google.com/");
 
         // Carregar uma página da web quando o usuário pressiona Enter
         campoUrl.setOnAction(evento -> motor.load(formataUrl(campoUrl.getText())));
