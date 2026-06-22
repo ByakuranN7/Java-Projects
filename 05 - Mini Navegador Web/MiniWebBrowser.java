@@ -3,7 +3,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+
 
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -18,8 +21,9 @@ public class MiniWebBrowser extends Application {
     @Override
     public void start(Stage palco) {
         TextField campoUrl = new TextField();
+        campoUrl.setPrefWidth(700);
         Button botaoVoltar = new Button("←");
-        Button botaoAvancar = new Button("➜");
+        Button botaoAvancar = new Button("→");
         Button botaoAtualizar = new Button("⟳");
         WebView navegador = new WebView();
         WebEngine motor = navegador.getEngine();
@@ -47,9 +51,18 @@ public class MiniWebBrowser extends Application {
             }
         });
 
+        HBox barraNavegacao = new HBox();
+        barraNavegacao.setSpacing(10);
+        botaoVoltar.setPrefHeight(30);
+        botaoAvancar.setPrefHeight(30);
+        botaoAtualizar.setPrefHeight(30);
+        campoUrl.setPrefHeight(30);
+        barraNavegacao.getChildren().addAll(botaoVoltar, botaoAvancar, botaoAtualizar, campoUrl);
+
 
         VBox layoutPrincipal = new VBox();
-        layoutPrincipal.getChildren().addAll(botaoVoltar, botaoAvancar, botaoAtualizar, campoUrl, navegador);
+        layoutPrincipal.getChildren().addAll(barraNavegacao, navegador);
+        VBox.setVgrow(navegador, Priority.ALWAYS);
         Scene cena = new Scene(layoutPrincipal);
 
         cena.setOnMousePressed(evento -> {
