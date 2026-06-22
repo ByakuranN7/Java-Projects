@@ -24,6 +24,11 @@ public class MiniWebBrowser extends Application {
         WebView navegador = new WebView();
         WebEngine motor = navegador.getEngine();
         WebHistory webHistory = motor.getHistory();
+
+        motor.locationProperty().addListener((observable, urlAntiga, urlNova) -> {
+            campoUrl.setText(urlNova);
+        });
+        
         motor.load("https://www.google.com/");
 
         // Carregar uma página da web quando o usuário pressiona Enter
@@ -41,6 +46,7 @@ public class MiniWebBrowser extends Application {
                 webHistory.go(1);
             }
         });
+
 
         VBox layoutPrincipal = new VBox();
         layoutPrincipal.getChildren().addAll(botaoVoltar, botaoAvancar, botaoAtualizar, campoUrl, navegador);
