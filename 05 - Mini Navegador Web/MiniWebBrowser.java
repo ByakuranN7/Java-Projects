@@ -107,12 +107,20 @@ public class MiniWebBrowser extends Application {
             }
         });
     }
-    
-// Método para inserir http se o usuário não digitar
-    public String formataUrl (String url){
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://" + url;
+
+    public String formataUrl(String texto) {
+
+        texto = texto.trim();
+
+        if (texto.startsWith("http://") || texto.startsWith("https://")) {
+            return texto;
         }
-        return url;
+
+        if (texto.matches("^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            return "https://" + texto;
+        }
+
+        return "https://www.google.com/search?q=" +
+                texto.replace(" ", "+");
     }
 }
