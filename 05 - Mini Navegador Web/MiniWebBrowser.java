@@ -38,18 +38,6 @@ public class MiniWebBrowser extends Application {
         // Carregar uma página da web quando o usuário pressiona Enter
         campoUrl.setOnAction(evento -> motor.load(formataUrl(campoUrl.getText())));
 
-        botaoAtualizar.setOnAction(evento -> motor.reload());
-        botaoVoltar.setOnAction(evento -> {
-            if (webHistory.getCurrentIndex() > 0) {
-                webHistory.go(-1);
-            }
-        });
-
-        botaoAvancar.setOnAction(evento -> {
-            if (webHistory.getCurrentIndex() < webHistory.getEntries().size() - 1) {
-                webHistory.go(1);
-            }
-        });
 
         HBox barraNavegacao = new HBox();
         barraNavegacao.setSpacing(10);
@@ -59,13 +47,35 @@ public class MiniWebBrowser extends Application {
         campoUrl.setPrefHeight(30);
         barraNavegacao.getChildren().addAll(botaoVoltar, botaoAvancar, botaoAtualizar, campoUrl);
 
-
         VBox layoutPrincipal = new VBox();
         layoutPrincipal.getChildren().addAll(barraNavegacao, navegador);
         VBox.setVgrow(navegador, Priority.ALWAYS);
         Scene cena = new Scene(layoutPrincipal);
 
+        configurarBotoes(botaoVoltar, botaoAvancar, botaoAtualizar, webHistory, motor);
+        configurarNavegacaoMouse(cena, webHistory);
+        configurarAtalhos(cena, motor);
+
+        palco.setTitle("Meu Browser Java");
+        palco.setScene(cena);
+        palco.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    private void configurarAtalhos(Scene cena, WebEngine motor) {
+        cena.setOnKeyPressed(evento -> {
+            if (evento.getCode() == KeyCode.F5) {
+                motor.reload();
+            }
+        });
+    }
+
+    private void configurarNavegacaoMouse(Scene cena, WebHistory webHistory) {
         cena.setOnMousePressed(evento -> {
+
             if (evento.getButton() == MouseButton.BACK) {
                 if (webHistory.getCurrentIndex() > 0) {
                     webHistory.go(-1);
@@ -77,23 +87,25 @@ public class MiniWebBrowser extends Application {
                     webHistory.go(1);
                 }
             }
+
         });
+    }
 
+    private void configurarBotoes(Button botaoVoltar, Button botaoAvancar, Button botaoAtualizar, WebHistory webHistory, WebEngine motor) {
 
+        botaoAtualizar.setOnAction(evento -> motor.reload());
 
-        cena.setOnKeyPressed(evento -> {
-            if (evento.getCode() == KeyCode.F5) {
-                motor.reload();
+        botaoVoltar.setOnAction(evento -> {
+            if (webHistory.getCurrentIndex() > 0) {
+                webHistory.go(-1);
             }
         });
 
-        palco.setTitle("Meu Browser Java");
-        palco.setScene(cena);
-        palco.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+        botaoAvancar.setOnAction(evento -> {
+            if (webHistory.getCurrentIndex() < webHistory.getEntries().size() - 1) {
+                webHistory.go(1);
+            }
+        });
     }
     
 // Método para inserir http se o usuário não digitar
