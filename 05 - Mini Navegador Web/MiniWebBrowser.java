@@ -141,28 +141,26 @@ public class MiniWebBrowser extends Application {
 
         botaoFavorito.setOnAction(evento -> {
 
+            String tituloAtual = motor.getTitle();
             String urlAtual = motor.getLocation();
 
-            favoritosManager.adicionarFavorito(urlAtual);
+            favoritosManager.adicionarFavorito(tituloAtual, urlAtual);
             atualizarMenuFavoritos(menuFavoritos, favoritosManager, motor);
 
             System.out.println(favoritosManager.getFavoritos());
         });
     }
 
-    private void atualizarMenuFavoritos(
-            MenuButton menuFavoritos,
-            FavoritosManager favoritosManager,
-            WebEngine motor) {
+    private void atualizarMenuFavoritos(MenuButton menuFavoritos, FavoritosManager favoritosManager, WebEngine motor) {
 
         menuFavoritos.getItems().clear();
 
-        for (String url : favoritosManager.getFavoritos()) {
+        for (Favorito favorito : favoritosManager.getFavoritos()) {
 
-            MenuItem item = new MenuItem(url);
+            MenuItem item = new MenuItem(favorito.getTitulo());
 
             item.setOnAction(evento -> {
-                motor.load(url);
+                motor.load(favorito.getUrl());
             });
 
             menuFavoritos.getItems().add(item);
