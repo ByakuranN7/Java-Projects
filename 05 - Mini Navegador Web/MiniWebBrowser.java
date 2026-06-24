@@ -1,4 +1,3 @@
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -9,12 +8,20 @@ import javafx.stage.Stage;
 
 
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+
 
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebHistory;
+
+import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MiniWebBrowser extends Application {
 
@@ -25,6 +32,9 @@ public class MiniWebBrowser extends Application {
         Button botaoVoltar = new Button("←");
         Button botaoAvancar = new Button("→");
         Button botaoAtualizar = new Button("⟳");
+        Button botaoFavorito = new Button("⭐");
+        MenuButton menuFavoritos = new MenuButton("📚");
+        FavoritosManager favoritosManager = new FavoritosManager();
         WebView navegador = new WebView();
         WebEngine motor = navegador.getEngine();
         WebHistory webHistory = motor.getHistory();
@@ -44,8 +54,10 @@ public class MiniWebBrowser extends Application {
         botaoVoltar.setPrefHeight(30);
         botaoAvancar.setPrefHeight(30);
         botaoAtualizar.setPrefHeight(30);
+        botaoFavorito.setPrefHeight(30);
+        menuFavoritos.setPrefHeight(30);
         campoUrl.setPrefHeight(30);
-        barraNavegacao.getChildren().addAll(botaoVoltar, botaoAvancar, botaoAtualizar, campoUrl);
+        barraNavegacao.getChildren().addAll(botaoVoltar, botaoAvancar, botaoAtualizar, campoUrl, botaoFavorito, menuFavoritos);
 
         VBox layoutPrincipal = new VBox();
         layoutPrincipal.getChildren().addAll(barraNavegacao, navegador);
@@ -55,6 +67,8 @@ public class MiniWebBrowser extends Application {
         configurarBotoes(botaoVoltar, botaoAvancar, botaoAtualizar, webHistory, motor);
         configurarNavegacaoMouse(cena, webHistory);
         configurarAtalhos(cena, motor);
+        configurarFavoritos(botaoFavorito, favoritosManager, motor, menuFavoritos);
+        atualizarMenuFavoritos(menuFavoritos, favoritosManager, motor);
 
         palco.setTitle("Meu Browser Java");
         palco.setScene(cena);
@@ -120,7 +134,39 @@ public class MiniWebBrowser extends Application {
             return "https://" + texto;
         }
 
-        return "https://www.google.com/search?q=" +
-                texto.replace(" ", "+");
+        return "https://www.google.com/search?q=" + texto.replace(" ", "+");
     }
+
+    private void configurarFavoritos(Button botaoFavorito, FavoritosManager favoritosManager, WebEngine motor, MenuButton menuFavoritos) {
+
+        botaoFavorito.setOnAction(evento -> {
+
+            String urlAtual = motor.getLocation();
+
+            favoritosManager.adicionarFavorito(urlAtual);
+            atualizarMenuFavoritos(menuFavoritos, favoritosManager, motor);
+
+            System.out.println(favoritosManager.getFavoritos());
+        });
+    }
+
+    private void atualizarMenuFavoritos(
+            MenuButton menuFavoritos,
+            FavoritosManager favoritosManager,
+            WebEngine motor) {
+
+        menuFavoritos.getItems().clear();
+
+        for (String url : favoritosManager.getFavoritos()) {
+
+            MenuItem item = new MenuItem(url);
+
+            item.setOnAction(evento -> {
+                motor.load(url);
+            });
+
+            menuFavoritos.getItems().add(item);
+        }
+    }
+    
 }
